@@ -22,7 +22,6 @@ export class ChatController {
       throw new BadRequestException('Model and prompt are required');
     }
 
-    console.log({ model, prompt });
     const response = await this.chatService.chat(model, prompt);
     return { reply: response };
   }

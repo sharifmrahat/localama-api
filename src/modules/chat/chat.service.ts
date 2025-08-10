@@ -29,16 +29,12 @@ export class ChatService {
       }),
     });
 
-    console.log({ response });
-
     if (!response.ok) {
       this.logger.error(`Ollama API error: ${response.statusText}`);
       throw new Error('Failed to get response from Ollama');
     }
 
     const data = await response.json();
-
-    console.log({ data });
 
     // Save assistant reply in history
     const assistantMessage = data.message?.content || '';
@@ -62,7 +58,7 @@ export class ChatService {
     }
     this.chatHistories[sessionId].push({ role: 'user', content: prompt });
 
-    const ollamaHost = this.configService.get<string>('OLLAMA_HOST');
+    const ollamaHost = 'http://localhost:11434/api/chat';
 
     const response = await fetch(ollamaHost, {
       method: 'POST',
