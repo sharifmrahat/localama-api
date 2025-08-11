@@ -6,16 +6,18 @@ import fetch from 'node-fetch';
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
   private readonly configService: ConfigService;
-  // In-memory chat history, keyed by sessionId or userId
+  //* In-memory chat history, keyed by sessionId or userId
   private chatHistories: Record<string, { role: string; content: string }[]> =
     {};
 
   async chat(model: string, prompt: string, sessionId: string = 'default') {
-    // Append user message to history
+    //* Append user message to history
     if (!this.chatHistories[sessionId]) {
       this.chatHistories[sessionId] = [];
     }
     this.chatHistories[sessionId].push({ role: 'user', content: prompt });
+
+    // const ollamaHost = await this.configService.get<string>('ollamaHost');
 
     const ollamaHost = 'http://localhost:11434/api/chat';
 
@@ -29,21 +31,21 @@ export class ChatService {
       }),
     });
 
-    if (!response.ok) {
-      this.logger.error(`Ollama API error: ${response.statusText}`);
-      throw new Error('Failed to get response from Ollama');
-    }
-
     const data = await response.json();
 
-    // Save assistant reply in history
+    if (!response.ok) {
+      this.logger.error(`Ollama API error: ${response.statusText}`);
+      throw new Error(
+        `Failed to get response from Ollama: ${data?.error ?? response.statusText}`,
+      );
+    }
+
+    //* To save assistant reply in history
     const assistantMessage = data.message?.content || '';
     this.chatHistories[sessionId].push({
       role: 'assistant',
       content: assistantMessage,
     });
-
-    console.log({ response, data, assistantMessage });
 
     return assistantMessage;
   }
@@ -58,6 +60,7 @@ export class ChatService {
     }
     this.chatHistories[sessionId].push({ role: 'user', content: prompt });
 
+    // const ollamaHost = this.configService.get<string>('ollamaHost');
     const ollamaHost = 'http://localhost:11434/api/chat';
 
     const response = await fetch(ollamaHost, {
@@ -78,7 +81,7 @@ export class ChatService {
     let assistantMessage = '';
 
     for await (const chunk of response.body) {
-      // Ensure chunk is a Uint8Array for TextDecoder
+      //* To ensure chunk is a Uint8Array for TextDecoder
       const uint8Chunk =
         typeof chunk === 'string' ? Buffer.from(chunk) : new Uint8Array(chunk);
       const textChunk = decoder.decode(uint8Chunk, { stream: true });
@@ -86,7 +89,7 @@ export class ChatService {
       yield textChunk;
     }
 
-    // Final decode flush
+    //* Final decode flush
     assistantMessage += decoder.decode();
     this.chatHistories[sessionId].push({
       role: 'assistant',
