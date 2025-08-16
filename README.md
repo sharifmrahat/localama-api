@@ -1,100 +1,192 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Localama | Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+**Localama** is a lightweight AI chat application for running [Ollama](https://ollama.com/) models locally. It provides a clean, responsive chat interface with real-time streaming, enabling seamless interaction with large language models directly on your machine.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📦 Installation
 
-## Description
+#### Prerequisites:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+| Model Size | Minimum RAM |
+| ---------- | ----------- |
+| 7B         | 8 GB        |
+| 13B        | 16 GB       |
+| 33B        | 32 GB       |
 
-## Project setup
+- Install **Ollama** and download at least one model.
+- Check [Ollama Documentation](https://ollama.com/download) or [GitHub Repository](https://github.com/ollama/ollama) for the latest updates.
+- Install [Bun](https://bun.com/) to run frontend.
+
+### 1️⃣ Step-1 : Install Ollama
+
+Install Ollama in your machine from [here](https://ollama.com/download)
+
+Test Run ollama:
 
 ```bash
-$ npm install
+ollama serve
 ```
 
-## Compile and run the project
+_Note: Ollama should run in: `http://localhost:11434/`_
+
+### 2️⃣ Step-2: Pull Model
+
+Get Ollama model from [here](https://ollama.com/search)
+
+Pull your model:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+ollama pull <model-name>
 ```
 
-## Run tests
+Check available models (optional):
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+ollama list
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Test run your model (optional):
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+ollama pull <model-name>
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 3️⃣ Step-3: Run Application
 
-## Resources
+| Method     | Description                                          |
+| ---------- | ---------------------------------------------------- |
+| **Docker** | Run both frontend and backend together.              |
+| **Manual** | Run frontend and backend separately on your machine. |
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+#### Method-1: Docker Setup (Recommended)
 
-## Support
+Run both frontend and backend together using Docker Compose. Install [Docker](https://docs.docker.com/get-docker/) and [ Docker Compose](https://docs.docker.com/compose/install/). And then Clone this repository for docker script:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+git clone https://github.com/sharifmrahat/localama.git
+cd localama
 
-## Stay in touch
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Run docker compose:
 
-## License
+```bash
+docker-compose up -d
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-# localama-api
-# localama-api
+Check the status:
+
+```bash
+docker ps
+```
+
+To stop the services:
+
+```bash
+docker-compose down
+```
+
+**Backend:** `http://localhost:5000/`
+
+**Frontend:** `http://localhost:3000/`
+
+---
+
+#### Method-2: Manual Setup
+
+Run the Frontend and Backend separately after cloning from GitHub.
+
+_Note: To run the frontend with [Bun](https://bun.com/) you've to install it in your machine. You can also use NPM._
+
+#### Backend Setup:
+
+Clone backend repository:
+
+```bash
+git clone https://github.com/sharifmrahat/localama-api.git
+cd localama-api
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run backend service:
+
+```bash
+npm run start:dev
+```
+
+**Backend:** `http://localhost:5000/`
+
+---
+
+#### Frontend setup:
+
+Clone frontend repository:
+
+```bash
+git clone https://github.com/sharifmrahat/localama-fe.git
+cd localama-fe
+```
+
+Install dependencies:
+
+```bash
+bun install
+```
+
+Run frontend:
+
+```bash
+bun run dev
+```
+
+**Frontend:** `http://localhost:5173/`
+
+## 🚀 Tech Stack
+
+- Ollama (LLM)
+- Node.js
+- NestJS
+- SSE
+- Bun
+- Svelte
+- Tailwind
+- Shadcn
+- TypeScript
+- Vite
+- Docker
+
+## ✨ Features
+
+- **AI-Powered Chat** – Interact seamlessly with large language models running locally.
+- **Responsive UI/UX** – Clean, intuitive interface optimized for both desktop and mobile.
+- **Streaming Communication** – Unidirectional real-time updates via Server-Sent Events (SSE).
+- **Text-to-Speech** – Listen to AI responses in natural-sounding voice.
+- **Voice-to-Text** – Speak your messages and let the app convert them to text.
+- **In-Memory Chat History** – Keep conversations accessible during the session without persistent storage.
+- **Fast and Lightweight** – Built with Bun for high performance and minimal overhead.
+- **Local-First Privacy** – All processing happens on your machine, keeping your data private.
+- **Multi-Model Support** – Easily experiment with different Ollama models running locally.
+
+## 📈 Areas of Enhancement
+
+- **Real-Time Streaming** – Improve the speed and reliability of live data updates.
+- **Database Integration**: Store users and sessions in local database instead of using in-memory storage.
+- **UI/UX Enhancements** – Add animations and interactive elements for a smoother user experience.
+- **Testing & Reliability\*** – Implement comprehensive unit and integration tests to ensure stability.
+- **Scalability** – Support larger models and multiple simultaneous sessions efficiently.
+- **Voice Features** – Improve accuracy and responsiveness for text-to-speech and voice-to-text interactions.
+
+## 🤝 Contribution
+
+- Fork the repository
+- Create a feature branch (git checkout -b feature-name)
+- Commit changes (git commit -m 'Add feature')
+- Push and create a PR
+
+**Owner**: [Sharif](https://www.linkedin.com/in/sharifmrahat/)

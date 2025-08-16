@@ -6,7 +6,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getStart(): { status: number; message: string } {
+  getStart(): { status: number; message: string; success: boolean } {
     return this.appService.getStart();
   }
 }
